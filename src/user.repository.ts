@@ -5,4 +5,8 @@ export class UserRepository {
         this.users.push(user)
         return user
     }
+
+    async getAllUsers() {
+        return this.users
+    }
 }
