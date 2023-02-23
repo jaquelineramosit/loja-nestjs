@@ -1,14 +1,19 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common/decorators";
+import { CreateProductDTO } from "./createProduct.dto";
 import { ProductRepository } from "./product.repository";
 
 @Controller()
 export class ProductController {
 
-    constructor(private productRepository: ProductRepository) {}
-
+    constructor(private productRepository: ProductRepository) {
+        console.log('teste')
+    }
+    
     @Post('/products')
-    async createProdutct(@Body() dataProduct) {
+    async createProduct(@Body() dataProduct: CreateProductDTO) {
         
+        console.log('dataProduct')
+        //console.log(dataProduct)
         try {
             return await this.productRepository.save(dataProduct)
         } catch (error) {
