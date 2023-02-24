@@ -19,16 +19,27 @@ export class UserRepository {
         return this.users
     }
 
-    async updateUser(id: number, updatedUser: Partial<UserEntity>) {
+    async currentId() {
 
-        console.log(`usuario: ${id}`)
+    }
+
+    private findUserById(id: number) {
         const userExistis = this.users.find(
             currentUser => currentUser.id === id
         )
-
+    
         if(!userExistis) {
             throw new Error("user not found")
         }
+
+        return userExistis
+    }
+    
+
+    async updateUser(id: number, updatedUser: Partial<UserEntity>) {
+
+        const userExistis = this.findUserById(id)
+        
 
         Object.entries(updatedUser).forEach(([key, value]) => {
             if(key === "id") {
@@ -38,6 +49,18 @@ export class UserRepository {
             userExistis[key] = value
             return userExistis
         })
+    }
+
+    async deleteUser(id: number ) {
+
+        const userDeleted = this.findUserById(id)
+        this.users = this.users.filter(
+            newUsers => newUsers.id !== id
+        )
+        
+        return userDeleted
+
+        return 
     }
 
     async hasEmail(email: string) {

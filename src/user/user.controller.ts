@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put } from "@nestjs/common/decorators";
+import { Body, Controller, Delete, Get, Post, Put } from "@nestjs/common/decorators";
 import { CreateUserDTO } from "./createUser.dto";
 import { UserEntity } from "./user.entity";
 import { UserRepository } from "./user.repository";
@@ -6,6 +6,7 @@ import { v4 } from 'uuid'
 import { ListUsersDTO } from "./listUsers.dto";
 import { Param } from "@nestjs/common";
 import { UpdateUserDTO } from "./updateUser.dto";
+// import { IncrementId } from "src/utils/counter";
 
 @Controller()
 export class UserController {
@@ -17,8 +18,10 @@ export class UserController {
         
         try {
             const userEntity = new UserEntity()
-
-            userEntity.id = 1
+            const id = 1
+            
+            console.log(id)
+            userEntity.id = id
             userEntity.publicId = v4()
             userEntity.name = dataUser.name
             userEntity.email = dataUser.email
@@ -66,4 +69,15 @@ export class UserController {
        }
         
     }
+
+    @Delete("/user/:id")
+    async deleteUser(@Param("id") id: number) {
+        const deletedUser = await this.userRepository.deleteUser(id)
+
+        return {
+            user: deletedUser,
+            message: 'user deleted successfully'
+       }
+    }
+
 }
