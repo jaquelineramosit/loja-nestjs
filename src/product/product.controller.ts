@@ -6,14 +6,12 @@ import { ProductRepository } from "./product.repository";
 export class ProductController {
 
     constructor(private productRepository: ProductRepository) {
-        console.log('teste')
+        
     }
     
-    @Post('/products')
+    @Post('/product')
     async createProduct(@Body() dataProduct: CreateProductDTO) {
         
-        console.log('dataProduct')
-        //console.log(dataProduct)
         try {
             return await this.productRepository.save(dataProduct)
         } catch (error) {
