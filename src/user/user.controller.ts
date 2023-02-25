@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Post, Put } from "@nestjs/common/decorat
 import { CreateUserDTO } from "./createUser.dto";
 import { UserEntity } from "./user.entity";
 import { UserRepository } from "./user.repository";
+import { IncrementId } from "../utils/incrementId"
 import { v4 } from 'uuid'
 import { ListUsersDTO } from "./listUsers.dto";
 import { Param } from "@nestjs/common";
@@ -11,16 +12,15 @@ import { UpdateUserDTO } from "./updateUser.dto";
 @Controller()
 export class UserController {
 
-    constructor(private userRepository: UserRepository) {}
+    constructor(private userRepository: UserRepository, private incrementId: IncrementId) {}
 
     @Post('/user')
     async createUser(@Body() dataUser: CreateUserDTO) {
         
         try {
             const userEntity = new UserEntity()
-            const id = 1
-            
-            console.log(id)
+            const id = await this.incrementId.currentId()
+
             userEntity.id = id
             userEntity.publicId = v4()
             userEntity.name = dataUser.name
@@ -32,7 +32,6 @@ export class UserController {
                 id: userEntity.publicId,
                 message: 'user created successfully'
             }
-            
             
         } catch (error) 
         {
