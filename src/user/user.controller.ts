@@ -7,7 +7,6 @@ import { v4 } from 'uuid'
 import { ListUsersDTO } from "./listUsers.dto";
 import { Param } from "@nestjs/common";
 import { UpdateUserDTO } from "./updateUser.dto";
-// import { IncrementId } from "src/utils/counter";
 
 @Controller()
 export class UserController {
@@ -40,15 +39,14 @@ export class UserController {
         } 
     } 
 
-    @Get("/all-users")
+    @Get("/full-users")
     async getAllUsers() {
-        
-        return this.userRepository.getAllUsers()
+        return await this.userRepository.getUsers()
     }
 
     @Get("/users")
     async listUsers() {
-        const users = await this.userRepository.listUsers()
+        const users = await this.userRepository.getUsers()
         const usersListed = users.map(
             user => new ListUsersDTO(
                 user.id,

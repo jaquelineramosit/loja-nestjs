@@ -1,4 +1,3 @@
-import { format } from 'date-fns'
 import { Type } from "class-transformer";
 import { IsArray, IsNotEmpty, IsNumber, IsNumberString, IsString, ValidateNested } from "class-validator";
 import { CharacteristicsProductDTO } from "./characteristicsProduct.dto";
@@ -14,17 +13,19 @@ export class CreateProductDTO {
     @IsNumber()
     quantityAvaiable: number;
     
+    @IsString()
     description: string;
 
-    @ValidateNested()
+    @ValidateNested({each: true})
     @IsArray()
     @Type(() => CharacteristicsProductDTO)
     characteristics: CharacteristicsProductDTO[];
     
+    @IsString()
     image: string;
 
     @IsNotEmpty()
-    category: string;
+    category: string; 
     
     @IsNotEmpty()
     createdAt: string;

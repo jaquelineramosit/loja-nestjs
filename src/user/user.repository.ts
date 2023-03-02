@@ -11,16 +11,8 @@ export class UserRepository {
         return user
     }
 
-    async getAllUsers() {
+    async getUsers() {
         return this.users
-    }
-
-    async listUsers() {
-        return this.users
-    }
-
-    async currentId() {
-
     }
 
     private findUserById(id: number) {
