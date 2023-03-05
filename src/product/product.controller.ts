@@ -17,20 +17,19 @@ export class ProductController {
 
             const productEntity = new ProductEntity()
             const id = await this.incrementId.currentId()
-            const charac = dataProduct.characteristics
-
-        
-
-            
             productEntity.id = id
             productEntity.publicId = v4()
             productEntity.name = dataProduct.name
             productEntity.value = dataProduct.value
             productEntity.quantityAvaiable = dataProduct.quantityAvaiable
             productEntity.description = dataProduct.description
-            productEntity.characteristics = 
+            productEntity.characteristics = dataProduct.characteristics
+            productEntity.image = dataProduct.image
+            productEntity.category = dataProduct.category
+            productEntity.createdAt = dataProduct.createdAt
+            productEntity.updatedAt = dataProduct.updatedAt
 
-            return await this.productRepository.save(dataProduct)
+            return await this.productRepository.save(productEntity)
         } catch (error) {
             return error
         }
