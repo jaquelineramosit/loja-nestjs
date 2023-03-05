@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Post } from "@nestjs/common/decorators";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common/decorators";
 import { CreateProductDTO } from "./createProduct.dto";
 import { ProductEntity } from "./product.entity";
 import { ProductRepository } from "./product.repository";
 import { IncrementId } from "../utils/incrementId"
 import { v4 } from "uuid";
 import { CharacteristicsProductDTO } from "./characteristicsProduct.dto";
+import { ListProductsDTO } from "./listProducts.dto";
+import { UpdateProductDTO } from "./updateProduct.dto";
 
 @Controller()
 export class ProductController {
@@ -35,8 +37,53 @@ export class ProductController {
         }
     }
 
-    @Get('/products')
+    @Get('/full-products')
     async getAllUsers() {
         return this.productRepository.getAllProducts()
+    }
+
+    @Get('/products')
+    async listProducts() {
+        const products = await this.productRepository.getAllProducts()
+        const productsListed = products.map(
+            product => new ListProductsDTO(
+                product.id,
+                product.name,
+                product.value,
+                product.quantityAvaiable,
+                product.characteristics,
+                product.image,
+                product.category
+            )
+        )
+        return productsListed
+    }
+
+    @Put("/product/:id")
+    async updateProduct(@Param("id") id: number, @Body() productUpdated: UpdateProductDTO) {
+        try {                 
+            const product = await this.productRepository.updateProduct(id, productUpdated)
+            return {
+            user: product,
+            message: 'product updated successfully'
+            }
+
+        } catch (error) {
+            return error
+        }
+    }
+    
+    @Delete("/product/:id")
+    async deleteProduct(@Param("id") id: number) {
+        try {
+            const deletedProduct = await this.productRepository.deleteProduct(id)
+
+            return {
+                product: deletedProduct,
+                message: 'user deleted successfully'
+            }
+        } catch (error) {
+            return {"error": error.message}
+        }
     }
 }

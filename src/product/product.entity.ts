@@ -5,7 +5,7 @@ export class ProductEntity{
     value: number
     quantityAvaiable: number
     description: string
-    characteristics: ProductCharactetistics[]
+    characteristics: CharactetisticsProduct[]
     image: string
     category: string
     createdAt: string
@@ -13,7 +13,7 @@ export class ProductEntity{
       
 }
 
-class ProductCharactetistics {
+class CharactetisticsProduct {
     nameManufacturer: string
     descriptionManufacturer: string
 }

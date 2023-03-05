@@ -51,8 +51,6 @@ export class UserRepository {
         )
         
         return userDeleted
-
-        return 
     }
 
     async hasEmail(email: string) {
